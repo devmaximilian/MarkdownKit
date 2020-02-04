@@ -6,7 +6,7 @@
 //  Copyright © 2019 Ivan Bruel. All rights reserved.
 //
 
-import UIKit
+@_exported import UIKit
 
 public typealias MarkdownFont = UIFont
 public typealias MarkdownColor = UIColor
