@@ -15,6 +15,7 @@ open class MarkdownHeader: MarkdownLevelElement {
   open var font: MarkdownFont?
   open var color: MarkdownColor?
   open var fontIncrease: Int
+  open var fontForLevel: [Int: UIFont] = [:]
 
   open var regex: String {
     let level: String = maxLevel > 0 ? "\(maxLevel)" : ""
@@ -33,12 +34,15 @@ open class MarkdownHeader: MarkdownLevelElement {
       attributedString.deleteCharacters(in: range)
   }
 
-    open func attributesForLevel(_ level: Int) -> [NSAttributedString.Key: AnyObject] {
+  open func attributesForLevel(_ level: Int) -> [NSAttributedString.Key: AnyObject] {
     var attributes = self.attributes
     if let font = font {
+      if let headerFont = fontForLevel[level] {
+        attributes[NSAttributedString.Key.font] = headerFont
+      } else {
         let headerFontSize: CGFloat = font.pointSize + 4 + (-1 * CGFloat(level) * CGFloat(fontIncrease))
-      
-      attributes[NSAttributedString.Key.font] = font.withSize(headerFontSize).bold()
+        attributes[NSAttributedString.Key.font] = font.withSize(headerFontSize).bold()
+      }
     }
     return attributes
   }
